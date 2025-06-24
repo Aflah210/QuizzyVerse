@@ -5,10 +5,17 @@ import './HomeScreen.css';
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [questions, setQuestions] = useState([]);
 
-  const handleSelectCategory = (category) => {
+  const handleSelectCategory = async (category) => {
     setSelectedCategory(category);
-    // Later, this will trigger fetching questions
+    try {
+      const response = await fetch(`http://localhost:5000/api/questions/${category}`);
+      const data = await response.json();
+      setQuestions(data);
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    }
   };
 
   return (
@@ -21,7 +28,12 @@ function App() {
           <HomeScreen onSelectCategory={handleSelectCategory} />
         ) : (
           <div>
-            <h2>Selected Category: {selectedCategory}</h2>
+            <h2>{selectedCategory} Questions</h2>
+            {questions.map((q, index) => (
+              <div key={index}>
+                <p>{q.question}</p>
+              </div>
+            ))}
             {/* Question display will go here */}
           </div>
         )}
