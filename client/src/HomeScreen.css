@@ -1,0 +1,40 @@
+.home-screen {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.home-screen h1 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+}
+
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.category-list button {
+  background-color: var(--white);
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 20px 40px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 50px; /* Makes it bubbly */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.category-list button:hover {
+  background-color: var(--primary-color);
+  color: var(--white);
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+} 
