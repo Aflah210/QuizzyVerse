@@ -1,21 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import HomeScreen from './HomeScreen';
 import './HomeScreen.css';
+import QuizScreen from './QuizScreen';
+import './QuizScreen.css';
+import ScoreScreen from './ScoreScreen';
+import './ScoreScreen.css';
 
 function App() {
+  const [gameState, setGameState] = useState('home'); // 'home', 'quiz', 'score'
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [questions, setQuestions] = useState([]);
+  const [score, setScore] = useState(0);
 
-  const handleSelectCategory = async (category) => {
-    setSelectedCategory(category);
+  const fetchQuestions = async (category) => {
     try {
       const response = await fetch(`http://localhost:5000/api/questions/${category}`);
       const data = await response.json();
       setQuestions(data);
+      setGameState('quiz');
     } catch (error) {
       console.error("Error fetching questions:", error);
     }
+  };
+
+  const handleSelectCategory = (category) => {
+    setSelectedCategory(category);
+    fetchQuestions(category);
+  };
+
+  const handleQuizFinish = (finalScore) => {
+    setScore(finalScore);
+    setGameState('score');
+  };
+
+  const handleRetry = () => {
+    setScore(0);
+    fetchQuestions(selectedCategory);
+  };
+
+  const handleNewCategory = () => {
+    setGameState('home');
+    setSelectedCategory(null);
+    setQuestions([]);
+    setScore(0);
   };
 
   return (
@@ -24,18 +52,15 @@ function App() {
         <h1>QuizzyVerse</h1>
       </header>
       <main>
-        {!selectedCategory ? (
-          <HomeScreen onSelectCategory={handleSelectCategory} />
-        ) : (
-          <div>
-            <h2>{selectedCategory} Questions</h2>
-            {questions.map((q, index) => (
-              <div key={index}>
-                <p>{q.question}</p>
-              </div>
-            ))}
-            {/* Question display will go here */}
-          </div>
+        {gameState === 'home' && <HomeScreen onSelectCategory={handleSelectCategory} />}
+        {gameState === 'quiz' && <QuizScreen questions={questions} onFinish={handleQuizFinish} />}
+        {gameState === 'score' && (
+          <ScoreScreen
+            score={score}
+            totalQuestions={questions.length}
+            onRetry={handleRetry}
+            onNewCategory={handleNewCategory}
+          />
         )}
       </main>
     </div>
