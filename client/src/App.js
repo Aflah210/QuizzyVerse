@@ -15,7 +15,7 @@ function App() {
 
   const fetchQuestions = async (category) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/questions/${category}`);
+      const response = await fetch(`http://localhost:8000/api/questions/${category}`);
       const data = await response.json();
       setQuestions(data);
       setGameState('quiz');
