@@ -1,7 +1,7 @@
 import React from 'react';
 
 const HomeScreen = ({ onSelectCategory }) => {
-  const categories = ['History', 'Science', 'Geography', 'Art'];
+  const categories = ['History', 'Science', 'Geography', 'Art', 'Sports'];
 
   return (
     <div className="home-screen">
